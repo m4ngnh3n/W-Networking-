@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>W-Networking | Official Artist Hub</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Space Grotesk, Inter, JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: '#0a0a0c',
+                        surface: '#111115',
+                        cybercyan: '#00f0ff',
+                        crimson: '#ff2a5f',
+                        amber: '#ffaa00',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'spin-slow': 'spin 14s linear infinite',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar & Base Styling */
+        body {
+            background-color: #0a0a0c;
+            color: #e4e4e7;
+            overflow-x: hidden;
+        }
+
+        /* Subtle Noise Overlay for Underground Texture */
+        .noise-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.035;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(18, 18, 23, 0.68);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(0, 240, 255, 0.32);
+            box-shadow: 0 8px 32px rgba(0, 240, 255, 0.09);
+        }
+
+        /* Glitch Text Effect on Hover */
+        .glitch-text {
+            position: relative;
+            display: inline-block;
+        }
+
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0c;
+            opacity: 0.85;
+        }
+
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -1.5px 0 #ff2a5f;
+            clip: rect(24px, 9999px, 90px, 0);
+            animation: glitch-anim-2 4.2s infinite linear alternate-reverse;
+        }
+
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: -1.5px 0 #00f0ff;
+            clip: rect(85px, 9999px, 140px, 0);
+            animation: glitch-anim 3.6s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(12px, 9999px, 32px, 0); }
+            15% { clip: rect(78px, 9999px, 96px, 0); }
+            30% { clip: rect(4px, 9999px, 18px, 0); }
+            45% { clip: rect(54px, 9999px, 72px, 0); }
+            60% { clip: rect(22px, 9999px, 44px, 0); }
+            75% { clip: rect(88px, 9999px, 102px, 0); }
+            100% { clip: rect(36px, 9999px, 58px, 0); }
+        }
+
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(65px, 9999px, 88px, 0); }
+            20% { clip: rect(10px, 9999px, 28px, 0); }
+            40% { clip: rect(42px, 9999px, 60px, 0); }
+            60% { clip: rect(80px, 9999px, 95px, 0); }
+            80% { clip: rect(18px, 9999px, 35px, 0); }
+            100% { clip: rect(50px, 9999px, 70px, 0); }
+        }
+
+        /* Visualizer Bar Animation */
+        .eq-bar {
+            transition: height 0.12s ease, background-color 0.2s ease;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-cybercyan selection:text-obsidian">
+
+    <!-- Noise Texture Overlay -->
+    <div class="noise-bg"></div>
+
+    <!-- Ambient Glow Orbs -->
+    <div class="fixed top-[-10%] left-[-10%] w-[42vw] h-[42vw] rounded-full bg-cybercyan/5 blur-[130px] pointer-events-none z-0"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[42vw] h-[42vw] rounded-full bg-crimson/5 blur-[130px] pointer-events-none z-0"></div>
+
+    <!-- Sticky Glass Header -->
+    <header class="sticky top-0 z-40 border-b border-white/5 bg-obsidian/85 backdrop-blur-md">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-8 h-8 rounded-lg bg-cybercyan/10 border border-cybercyan/30 flex items-center justify-center group-hover:border-cybercyan transition-colors">
+                    <i class="fa-solid fa-wave-square text-cybercyan text-xs"></i>
+                </div>
+                <span class="font-display font-bold tracking-wider text-sm sm:text-base text-white group-hover:text-cybercyan transition-colors">W-Networking</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center gap-7 text-xs font-mono uppercase tracking-widest text-zinc-400">
+                <a href="#discography" class="hover:text-cybercyan transition-colors" data-i18n="nav_music">Âm Nhạc</a>
+                <a href="#philosophy" class="hover:text-cybercyan transition-colors" data-i18n="nav_bio">Tần Số & Tư Duy</a>
+                <a href="#connect" class="hover:text-cybercyan transition-colors" data-i18n="nav_connect">Kết Nối</a>
+            </nav>
+
+            <!-- Language Toggle & Live Signal Status -->
+            <div class="flex items-center gap-3">
+                <div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/[0.03] border border-white/10">
+                    <span class="w-1.5 h-1.5 rounded-full bg-cybercyan animate-ping"></span>
+                    <span class="font-mono text-[10px] text-zinc-400 uppercase">FREQ: 432Hz</span>
+                </div>
+
+                <button id="langToggle" onclick="toggleLanguage()" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 font-mono text-xs font-medium text-cybercyan transition-all active:scale-95">
+                    VI / EN
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 pt-10 pb-24 space-y-24">
+
+        <!-- 1. HERO SECTION -->
+        <section class="flex flex-col md:flex-row items-center justify-between gap-10 pt-4 sm:pt-8">
+            <!-- Left Text Identity -->
+            <div class="flex-1 text-center md:text-left space-y-6">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cybercyan/10 border border-cybercyan/25 text-cybercyan font-mono text-xs tracking-wider">
+                    <span data-i18n="hero_badge">[ W-NETWORKING // TẦN SỐ & TƯ DUY ]</span>
+                </div>
+
+                <div>
+                    <h1 class="font-display text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-none">
+                        <span class="glitch-text" data-text="W-Networking">W-Networking</span>
+                    </h1>
+                    <p class="mt-3 font-mono text-xs sm:text-sm text-zinc-400 tracking-wide">
+                        Experimental Hip-Hop <span class="text-cybercyan">•</span> Boom Bap <span class="text-crimson">•</span> Cyber Trap <span class="text-amber">•</span> Spoken Word
+                    </p>
+                </div>
+
+                <p class="text-zinc-300 text-sm sm:text-base max-w-xl mx-auto md:mx-0 leading-relaxed" data-i18n="hero_subtitle">
+                    Chạm vào những tần số thô mộc nhất của cảm xúc, nơi những nhịp điệu underground giao thoa cùng không gian cyberpunk cô độc và chiêm nghiệm về thời gian.
+                </p>
+
+                <!-- Quick Action Buttons -->
+                <div class="flex flex-wrap items-center justify-center md:justify-start gap-3.5 pt-2">
+                    <a href="https://open.spotify.com/artist/6VvYOv1MXFEjGHsB6OD9oJ?si=LTHFoRRrQ-SHQyZM_sEwOw" target="_blank" rel="noopener noreferrer" class="px-6 py-3 rounded-xl bg-cybercyan text-obsidian font-display font-bold text-sm tracking-wide hover:bg-cyan-300 transition-all shadow-[0_0_20px_rgba(0,240,255,0.3)] flex items-center gap-2 active:scale-95">
+                        <i class="fa-brands fa-spotify text-base"></i>
+                        <span data-i18n="btn_spotify">Nghe trên Spotify</span>
+                    </a>
+                    <a href="https://music.apple.com/vn/artist/w-networking/6830223941?l=vi" target="_blank" rel="noopener noreferrer" class="px-5 py-3 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/40 text-rose-300 hover:text-white font-display font-medium text-sm tracking-wide transition-all flex items-center gap-2 active:scale-95">
+                        <i class="fa-brands fa-apple text-base"></i>
+                        <span>Apple Music</span>
+                    </a>
+                    <a href="#connect" class="px-5 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-white font-display font-medium text-sm tracking-wide transition-all flex items-center gap-2 active:scale-95">
+                        <i class="fa-solid fa-satellite-dish text-cybercyan text-xs"></i>
+                        <span data-i18n="btn_connect">Kết Nối / Booking</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Circular Frequency / Waveform Avatar Frame -->
+            <div class="relative w-64 h-64 sm:w-72 sm:h-72 flex-shrink-0 flex items-center justify-center">
+                <!-- Rotating Circular Cyber Rings -->
+                <div class="absolute inset-0 rounded-full border border-dashed border-cybercyan/35 animate-spin-slow"></div>
+                <div class="absolute inset-2 rounded-full border border-crimson/30 animate-pulse-slow"></div>
+                
+                <!-- Main Circular Visual Frame -->
+                <div class="relative w-[88%] h-[88%] rounded-full overflow-hidden bg-surface border-2 border-white/15 shadow-[0_0_40px_rgba(0,240,255,0.12)]">
+                    <!-- Procedural Cyber Frequency Canvas -->
+                    <canvas id="avatarCanvas" class="w-full h-full object-cover"></canvas>
+                    
+                    <!-- Overlay HUD Elements -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-obsidian/40 opacity-85 pointer-events-none"></div>
+                    <div class="absolute top-4 left-1/2 -translate-x-1/2 font-mono text-[9px] text-cybercyan bg-obsidian/85 px-2.5 py-0.5 rounded-full border border-cybercyan/30 whitespace-nowrap">
+                        REC ● OFFICIAL SIGNAL
+                    </div>
+                    <div class="bottom-5 left-1/2 -translate-x-1/2 absolute text-center w-full px-3">
+                        <div class="font-display font-bold text-white text-xs sm:text-sm tracking-wider">W-Networking</div>
+                        <div class="font-mono text-[9px] text-zinc-400 tracking-wider">SPOTIFY & APPLE MUSIC</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. DUAL OFFICIAL MUSIC PLAYER & FEATURED MIXTAPE -->
+        <section id="discography" class="space-y-8 scroll-mt-24">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-4">
+                <div>
+                    <div class="font-mono text-xs text-cybercyan uppercase tracking-widest mb-1" data-i18n="disc_tag">// STREAM TRỰC TIẾP</div>
+                    <h2 class="font-display text-2xl sm:text-3xl font-bold text-white" data-i18n="disc_title">Danh Mục Phát Hành</h2>
+                </div>
+                
+                <!-- Platform View Switcher (Spotify / Apple Music / Both) -->
+                <div class="inline-flex flex-wrap p-1 rounded-xl bg-white/[0.04] border border-white/10 self-start sm:self-auto gap-1">
+                    <button id="tabSpotify" onclick="switchPlatform('spotify')" class="px-3.5 py-1.5 rounded-lg bg-cybercyan text-obsidian font-mono text-xs font-bold flex items-center gap-1.5 transition-all">
+                        <i class="fa-brands fa-spotify"></i>
+                        <span>Spotify</span>
+                    </button>
+                    <button id="tabApple" onclick="switchPlatform('apple')" class="px-3.5 py-1.5 rounded-lg text-zinc-400 hover:text-white font-mono text-xs font-medium flex items-center gap-1.5 transition-all">
+                        <i class="fa-brands fa-apple"></i>
+                        <span>Apple Music</span>
+                    </button>
+                    <button id="tabBoth" onclick="switchPlatform('both')" class="px-3.5 py-1.5 rounded-lg text-zinc-400 hover:text-white font-mono text-xs font-medium flex items-center gap-1.5 transition-all">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span data-i18n="tab_both">Cả Hai</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Official Embed Stream Container -->
+            <div class="glass-card rounded-2xl p-4 sm:p-6 border-cybercyan/25 relative overflow-hidden space-y-4">
+                <!-- Top Live Status Bar -->
+                <div class="flex items-center justify-between gap-4 px-1">
+                    <div class="flex items-center gap-2 font-mono text-[11px] text-zinc-400">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span data-i18n="stream_live_label">TÍN HIỆU ÂM THANH CHÍNH THỨC // W-Networking</span>
+                    </div>
+                    <span id="platformIdLabel" class="font-mono text-[10px] text-cybercyan hidden sm:inline">SPOTIFY & APPLE MUSIC SYNCED</span>
+                </div>
+
+                <!-- Synchronized Ambient Visualizer -->
+                <div class="h-10 w-full rounded-xl bg-obsidian/90 border border-white/5 px-2.5 py-1.5 flex items-end justify-between gap-1 overflow-hidden" id="visualizerContainer">
+                    <!-- Bars injected via JS -->
+                </div>
+
+                <!-- Embed Players Grid -->
+                <div id="playersGrid" class="grid grid-cols-1 gap-5">
+                    <!-- SPOTIFY OFFICIAL EMBED PLAYER -->
+                    <div id="spotifyEmbedWrapper" class="rounded-xl overflow-hidden border border-white/10 bg-obsidian shadow-2xl transition-all">
+                        <div class="px-3.5 py-2 bg-white/[0.03] border-b border-white/5 flex items-center justify-between">
+                            <span class="font-mono text-[11px] text-emerald-400 flex items-center gap-1.5">
+                                <i class="fa-brands fa-spotify"></i> W-Networking — Spotify
+                            </span>
+                            <a href="https://open.spotify.com/artist/6VvYOv1MXFEjGHsB6OD9oJ?si=LTHFoRRrQ-SHQyZM_sEwOw" target="_blank" rel="noopener noreferrer" class="font-mono text-[10px] text-zinc-400 hover:text-cybercyan">
+                                Mở App ↗
+                            </a>
+                        </div>
+                        <iframe 
+                            style="border-radius:0 0 12px 12px" 
+                            src="https://open.spotify.com/embed/artist/6VvYOv1MXFEjGHsB6OD9oJ?utm_source=generator&theme=0" 
+                            width="100%" 
+                            height="352" 
+                            frameBorder="0" 
+                            allowfullscreen="" 
+                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                            loading="lazy">
+                        </iframe>
+                    </div>
+
+                    <!-- APPLE MUSIC OFFICIAL EMBED PLAYER -->
+                    <div id="appleEmbedWrapper" class="hidden rounded-xl overflow-hidden border border-rose-500/25 bg-obsidian shadow-2xl transition-all">
+                        <div class="px-3.5 py-2 bg-white/[0.03] border-b border-white/5 flex items-center justify-between">
+                            <span class="font-mono text-[11px] text-rose-400 flex items-center gap-1.5">
+                                <i class="fa-brands fa-apple"></i> W-Networking — Apple Music
+                            </span>
+                            <a href="https://music.apple.com/vn/artist/w-networking/6830223941?l=vi" target="_blank" rel="noopener noreferrer" class="font-mono text-[10px] text-zinc-400 hover:text-rose-400">
+                                Mở App ↗
+                            </a>
+                        </div>
+                        <iframe 
+                            allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" 
+                            frameborder="0" 
+                            height="450" 
+                            style="width:100%;overflow:hidden;border-radius:0 0 12px 12px;background:transparent;" 
+                            sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" 
+                            src="https://embed.music.apple.com/vn/artist/w-networking/6830223941?l=vi&theme=dark">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Mixtape Showcase: "Cười Trong Đớn Đau" -->
+            <div class="glass-card rounded-2xl p-5 sm:p-6 border-white/10 space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
+                    <div>
+                        <span class="font-mono text-[10px] text-crimson uppercase tracking-widest">FEATURED MIXTAPE // W-Networking</span>
+                        <h3 class="font-display text-lg sm:text-xl font-bold text-white">Cười Trong Đớn Đau</h3>
+                    </div>
+                    <span class="font-mono text-xs text-zinc-400" data-i18n="mixtape_note">Tuyển tập cảm xúc & tần số đêm</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <!-- Track 01 -->
+                    <div class="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 hover:border-cybercyan/30 transition-colors flex items-center justify-between gap-3">
+                        <div class="min-w-0">
+                            <div class="font-mono text-[10px] text-cybercyan">TRACK 01</div>
+                            <div class="font-display font-semibold text-sm text-white truncate">Vùng Trời Tần Số</div>
+                            <div class="font-mono text-[11px] text-zinc-500">W-Networking</div>
+                        </div>
+                        <span class="px-2 py-0.5 rounded bg-cybercyan/10 text-cybercyan font-mono text-[10px]">88 BPM</span>
+                    </div>
+
+                    <!-- Track 02 -->
+                    <div class="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 hover:border-crimson/30 transition-colors flex items-center justify-between gap-3">
+                        <div class="min-w-0">
+                            <div class="font-mono text-[10px] text-crimson">TRACK 02</div>
+                            <div class="font-display font-semibold text-sm text-white truncate">Life Goes On (Cyber Mix)</div>
+                            <div class="font-mono text-[11px] text-zinc-500">W-Networking</div>
+                        </div>
+                        <span class="px-2 py-0.5 rounded bg-crimson/10 text-crimson font-mono text-[10px]">124 BPM</span>
+                    </div>
+
+                    <!-- Track 03 -->
+                    <div class="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 hover:border-amber/30 transition-colors flex items-center justify-between gap-3">
+                        <div class="min-w-0">
+                            <div class="font-mono text-[10px] text-amber">TRACK 03</div>
+                            <div class="font-display font-semibold text-sm text-white truncate">Grandpa Remember Grandma</div>
+                            <div class="font-mono text-[11px] text-zinc-500">W-Networking</div>
+                        </div>
+                        <span class="px-2 py-0.5 rounded bg-amber/10 text-amber font-mono text-[10px]">76 BPM</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. ARTIST PHILOSOPHY & BIO ('TẦN SỐ & TƯ DUY') -->
+        <section id="philosophy" class="scroll-mt-24">
+            <div class="glass-card rounded-2xl p-6 sm:p-10 relative overflow-hidden">
+                <!-- Decorative Corner Accent -->
+                <div class="absolute top-0 right-0 w-24 h-24 border-t-2 border-r-2 border-cybercyan/30 rounded-tr-2xl pointer-events-none"></div>
+
+                <div class="max-w-3xl space-y-6">
+                    <div>
+                        <div class="font-mono text-xs text-crimson uppercase tracking-widest mb-1">// MANIFESTO</div>
+                        <h2 class="font-display text-2xl sm:text-3xl font-bold text-white" data-i18n="bio_title">Tần Số & Tư Duy</h2>
+                    </div>
+
+                    <div class="space-y-4 text-zinc-300 text-sm sm:text-base leading-relaxed">
+                        <p data-i18n="bio_p1">
+                            <strong class="text-white">W-Networking</strong> không tìm kiếm sự hào nhoáng của những khuôn mẫu đại trà. Âm nhạc của W-Networking là những mảnh ký ức được mã hóa thành sóng âm — nơi trống Boom Bap bụi bặm va chạm với không gian Cyber Trap lạnh lẽo và những tự sự Spoken Word trần trụi.
+                        </p>
+                        <p data-i18n="bio_p2">
+                            Từ những nỗi đau lặng thầm trong <em>"Cười Trong Đớn Đau"</em> đến những hoài niệm vượt thời gian như <em>"Grandpa Remember Grandma"</em>, mỗi bản thu là một trạm phát sóng độc lập dành cho những tâm hồn thức giấc lúc nửa đêm. Không tô vẽ, không sáo rỗng — chỉ có sự thật, thời gian và tần số đồng điệu.
+                        </p>
+                    </div>
+
+                    <!-- Core Pillars -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-white/10">
+                        <div class="p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
+                            <div class="font-mono text-xs text-cybercyan mb-1">01 / RAW TRUTH</div>
+                            <div class="text-xs text-zinc-400" data-i18n="pillar_1">Kể chuyện chân thực, không chạy theo công thức thị trường.</div>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
+                            <div class="font-mono text-xs text-crimson mb-1">02 / TIME & MEMORY</div>
+                            <div class="text-xs text-zinc-400" data-i18n="pillar_2">Lưu giữ những lát cắt ký ức và chiều sâu của thời gian.</div>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
+                            <div class="font-mono text-xs text-amber mb-1">03 / CYBER SOUL</div>
+                            <div class="text-xs text-zinc-400" data-i18n="pillar_3">Kết nối cảm xúc con người giữa kỷ nguyên số hóa.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. SOCIAL & BOOKING HUB -->
+        <section id="connect" class="space-y-6 scroll-mt-24">
+            <div class="border-b border-white/10 pb-4">
+                <div class="font-mono text-xs text-cybercyan uppercase tracking-widest mb-1">// CHANNELS & CONTACT</div>
+                <h2 class="font-display text-2xl sm:text-3xl font-bold text-white" data-i18n="connect_title">Kết Nối & Hợp Tác</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Spotify Official Profile Card -->
+                <a href="https://open.spotify.com/artist/6VvYOv1MXFEjGHsB6OD9oJ?si=LTHFoRRrQ-SHQyZM_sEwOw" target="_blank" rel="noopener noreferrer" class="glass-card rounded-2xl p-5 flex items-center justify-between group border-emerald-500/20">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-400 group-hover:scale-105 transition-transform">
+                            <i class="fa-brands fa-spotify text-xl"></i>
+                        </div>
+                        <div>
+                            <div class="font-display font-bold text-white group-hover:text-cybercyan transition-colors">Spotify</div>
+                            <div class="font-mono text-xs text-zinc-400">W-Networking</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-zinc-500 group-hover:text-cybercyan transition-all"></i>
+                </a>
+
+                <!-- Apple Music Official Profile Card -->
+                <a href="https://music.apple.com/vn/artist/w-networking/6830223941?l=vi" target="_blank" rel="noopener noreferrer" class="glass-card rounded-2xl p-5 flex items-center justify-between group border-rose-500/20">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/25 flex items-center justify-center text-rose-400 group-hover:scale-105 transition-transform">
+                            <i class="fa-brands fa-apple text-xl"></i>
+                        </div>
+                        <div>
+                            <div class="font-display font-bold text-white group-hover:text-rose-400 transition-colors">Apple Music</div>
+                            <div class="font-mono text-xs text-zinc-400">W-Networking</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-zinc-500 group-hover:text-rose-400 transition-all"></i>
+                </a>
+
+                <!-- YouTube Official Card (Display name: W-Networking) -->
+                <a href="https://youtube.com/@world20s" target="_blank" rel="noopener noreferrer" class="glass-card rounded-2xl p-5 flex items-center justify-between group border-red-500/20">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/25 flex items-center justify-center text-red-500 group-hover:scale-105 transition-transform">
+                            <i class="fa-brands fa-youtube text-xl"></i>
+                        </div>
+                        <div>
+                            <div class="font-display font-bold text-white group-hover:text-cybercyan transition-colors">YouTube</div>
+                            <div class="font-mono text-xs text-zinc-400">W-Networking</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-zinc-500 group-hover:text-cybercyan transition-all"></i>
+                </a>
+
+                <!-- Instagram Official Card (Display name: W-Networking) -->
+                <a href="https://www.instagram.com/wnwkofficial?fqnt=Z28xdDQwbXk1bTBk&utm_source=qr" target="_blank" rel="noopener noreferrer" class="glass-card rounded-2xl p-5 flex items-center justify-between group border-pink-500/20">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-pink-500/10 border border-pink-500/25 flex items-center justify-center text-pink-400 group-hover:scale-105 transition-transform">
+                            <i class="fa-brands fa-instagram text-xl"></i>
+                        </div>
+                        <div>
+                            <div class="font-display font-bold text-white group-hover:text-cybercyan transition-colors">Instagram</div>
+                            <div class="font-mono text-xs text-zinc-400">W-Networking</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-zinc-500 group-hover:text-cybercyan transition-all"></i>
+                </a>
+
+                <!-- Booking & Email Card with One-Click Copy -->
+                <div class="glass-card rounded-2xl p-5 flex items-center justify-between gap-3 sm:col-span-2">
+                    <div class="flex items-center gap-4 min-w-0">
+                        <div class="w-12 h-12 rounded-xl bg-cybercyan/10 border border-cybercyan/25 flex items-center justify-center text-cybercyan flex-shrink-0">
+                            <i class="fa-solid fa-envelope text-xl"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="font-display font-bold text-white text-sm sm:text-base" data-i18n="booking_label">Booking & Hợp Tác</div>
+                            <div class="font-mono text-xs text-zinc-300 truncate" id="artistEmail">votdoka@gmail.com</div>
+                        </div>
+                    </div>
+
+                    <button onclick="copyEmail()" class="px-4 py-2 rounded-xl bg-cybercyan/15 hover:bg-cybercyan text-cybercyan hover:text-obsidian border border-cybercyan/30 font-mono text-xs font-semibold transition-all flex items-center gap-1.5 flex-shrink-0 active:scale-95">
+                        <i class="fa-regular fa-copy"></i>
+                        <span data-i18n="btn_copy">Copy</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 5. FOOTER -->
+    <footer class="relative z-10 border-t border-white/10 bg-obsidian/90 py-8">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <div class="font-mono text-xs text-zinc-400">
+                © 2026 W-Networking. All Rights Reserved.
+            </div>
+            <div class="font-mono text-[11px] text-zinc-600">
+                SIGNAL TRANSMITTED FROM THE UNDERGROUND
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="px-4 py-3 rounded-xl bg-surface border border-cybercyan/50 shadow-[0_0_25px_rgba(0,240,255,0.25)] flex items-center gap-3">
+            <i class="fa-solid fa-circle-check text-cybercyan"></i>
+            <span id="toastMessage" class="font-mono text-xs text-white">Đã sao chép email: votdoka@gmail.com</span>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        let currentLang = 'vi';
+        let activePlatform = 'spotify';
+
+        // --- 1. AMBIENT FREQUENCY VISUALIZER ---
+        const numBars = 44;
+        const visualizerContainer = document.getElementById('visualizerContainer');
+        const bars = [];
+
+        for (let i = 0; i < numBars; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'eq-bar flex-1 rounded-t bg-cybercyan/50';
+            bar.style.height = '20%';
+            visualizerContainer.appendChild(bar);
+            bars.push(bar);
+        }
+
+        function startAmbientVisualizer() {
+            let tick = 0;
+            setInterval(() => {
+                tick += 0.18;
+                bars.forEach((bar, i) => {
+                    const wave = Math.sin(i * 0.25 + tick) * 0.5 + 0.5;
+                    const wave2 = Math.cos(i * 0.15 - tick * 1.3) * 0.5 + 0.5;
+                    const jitter = Math.random() * 0.25;
+                    const heightPct = Math.min(100, Math.max(12, (wave * 45 + wave2 * 35 + jitter * 20)));
+                    bar.style.height = `${heightPct}%`;
+                    
+                    if (activePlatform === 'spotify') {
+                        bar.style.backgroundColor = heightPct > 78 ? '#ff2a5f' : '#00f0ff';
+                    } else if (activePlatform === 'apple') {
+                        bar.style.backgroundColor = heightPct > 78 ? '#00f0ff' : '#fb7185';
+                    } else {
+                        bar.style.backgroundColor = i % 2 === 0 ? '#00f0ff' : '#fb7185';
+                    }
+                });
+            }, 120);
+        }
+
+        // --- 2. PLATFORM SWITCHER (SPOTIFY / APPLE MUSIC / BOTH) ---
+        function switchPlatform(platform) {
+            activePlatform = platform;
+            const tabSpotify = document.getElementById('tabSpotify');
+            const tabApple = document.getElementById('tabApple');
+            const tabBoth = document.getElementById('tabBoth');
+            const spotifyWrapper = document.getElementById('spotifyEmbedWrapper');
+            const appleWrapper = document.getElementById('appleEmbedWrapper');
+            const playersGrid = document.getElementById('playersGrid');
+
+            const inactiveClass = 'px-3.5 py-1.5 rounded-lg text-zinc-400 hover:text-white font-mono text-xs font-medium flex items-center gap-1.5 transition-all';
+            tabSpotify.className = inactiveClass;
+            tabApple.className = inactiveClass;
+            tabBoth.className = inactiveClass;
+
+            if (platform === 'spotify') {
+                tabSpotify.className = 'px-3.5 py-1.5 rounded-lg bg-cybercyan text-obsidian font-mono text-xs font-bold flex items-center gap-1.5 transition-all';
+                playersGrid.className = 'grid grid-cols-1 gap-5';
+                spotifyWrapper.classList.remove('hidden');
+                appleWrapper.classList.add('hidden');
+            } else if (platform === 'apple') {
+                tabApple.className = 'px-3.5 py-1.5 rounded-lg bg-rose-500 text-white font-mono text-xs font-bold flex items-center gap-1.5 transition-all';
+                playersGrid.className = 'grid grid-cols-1 gap-5';
+                appleWrapper.classList.remove('hidden');
+                spotifyWrapper.classList.add('hidden');
+            } else {
+                tabBoth.className = 'px-3.5 py-1.5 rounded-lg bg-white text-obsidian font-mono text-xs font-bold flex items-center gap-1.5 transition-all';
+                playersGrid.className = 'grid grid-cols-1 lg:grid-cols-2 gap-5';
+                spotifyWrapper.classList.remove('hidden');
+                appleWrapper.classList.remove('hidden');
+            }
+        }
+
+        // --- 3. BILINGUAL TOGGLE (VI / EN) ---
+        const translations = {
+            vi: {
+                nav_music: "Âm Nhạc",
+                nav_bio: "Tần Số & Tư Duy",
+                nav_connect: "Kết Nối",
+                hero_badge: "[ W-NETWORKING // TẦN SỐ & TƯ DUY ]",
+                hero_subtitle: "Chạm vào những tần số thô mộc nhất của cảm xúc, nơi những nhịp điệu underground giao thoa cùng không gian cyberpunk cô độc và chiêm nghiệm về thời gian.",
+                btn_spotify: "Nghe trên Spotify",
+                btn_connect: "Kết Nối / Booking",
+                disc_tag: "// STREAM TRỰC TIẾP",
+                disc_title: "Danh Mục Phát Hành",
+                tab_both: "Cả Hai",
+                stream_live_label: "TÍN HIỆU ÂM THANH CHÍNH THỨC // W-Networking",
+                mixtape_note: "Tuyển tập cảm xúc & tần số đêm",
+                bio_title: "Tần Số & Tư Duy",
+                bio_p1: '<strong class="text-white">W-Networking</strong> không tìm kiếm sự hào nhoáng của những khuôn mẫu đại trà. Âm nhạc của W-Networking là những mảnh ký ức được mã hóa thành sóng âm — nơi trống Boom Bap bụi bặm va chạm với không gian Cyber Trap lạnh lẽo và những tự sự Spoken Word trần trụi.',
+                bio_p2: 'Từ những nỗi đau lặng thầm trong <em>"Cười Trong Đớn Đau"</em> đến những hoài niệm vượt thời gian như <em>"Grandpa Remember Grandma"</em>, mỗi bản thu là một trạm phát sóng độc lập dành cho những tâm hồn thức giấc lúc nửa đêm. Không tô vẽ, không sáo rỗng — chỉ có sự thật, thời gian và tần số đồng điệu.',
+                pillar_1: "Kể chuyện chân thực, không chạy theo công thức thị trường.",
+                pillar_2: "Lưu giữ những lát cắt ký ức và chiều sâu của thời gian.",
+                pillar_3: "Kết nối cảm xúc con người giữa kỷ nguyên số hóa.",
+                connect_title: "Kết Nối & Hợp Tác",
+                booking_label: "Booking & Hợp Tác",
+                btn_copy: "Copy",
+                toast_copied: "Đã sao chép email: votdoka@gmail.com"
+            },
+            en: {
+                nav_music: "Discography",
+                nav_bio: "Frequency & Mindset",
+                nav_connect: "Connect",
+                hero_badge: "[ W-NETWORKING // FREQUENCY & MINDSET ]",
+                hero_subtitle: "Tapping into the rawest frequencies of human emotion, where underground rhythms collide with solitary cyberpunk atmospheres and reflections on time.",
+                btn_spotify: "Listen on Spotify",
+                btn_connect: "Connect / Booking",
+                disc_tag: "// DIRECT STREAM",
+                disc_title: "Featured Releases",
+                tab_both: "Both",
+                stream_live_label: "OFFICIAL AUDIO SIGNAL // W-Networking",
+                mixtape_note: "Midnight frequencies & raw emotions",
+                bio_title: "Frequency & Mindset",
+                bio_p1: '<strong class="text-white">W-Networking</strong> rejects the gloss of mainstream formulas. W-Networking’s sound is fragmented memory encoded into audio waves — where dusty Boom Bap drums collide with cold Cyber Trap spaces and unfiltered Spoken Word narratives.',
+                bio_p2: 'From the quiet ache of <em>"Cười Trong Đớn Đau"</em> to timeless nostalgia in <em>"Grandpa Remember Grandma"</em>, every record is an independent broadcast station for souls awake at midnight. No filters, no clichés — only truth, time, and resonant frequencies.',
+                pillar_1: "Raw storytelling without chasing commercial formulas.",
+                pillar_2: "Preserving slices of memory and the weight of time.",
+                pillar_3: "Connecting human emotion in a digitized era.",
+                connect_title: "Social & Booking Hub",
+                booking_label: "Booking & Collabs",
+                btn_copy: "Copy",
+                toast_copied: "Copied email: votdoka@gmail.com"
+            }
+        };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'vi' ? 'en' : 'vi';
+            document.documentElement.lang = currentLang;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[currentLang][key]) {
+                    el.innerHTML = translations[currentLang][key];
+                }
+            });
+
+            showToast(currentLang === 'vi' ? 'Đã chuyển sang Tiếng Việt' : 'Switched to English');
+        }
+
+        // --- 4. COPY EMAIL WITH FALLBACK & TOAST ---
+        function copyEmail() {
+            const email = "votdoka@gmail.com";
+            const textArea = document.createElement("textarea");
+            textArea.value = email;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                document.execCommand('copy');
+                showToast(translations[currentLang].toast_copied);
+            } catch (err) {
+                showToast(email);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        let toastTimeout;
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // --- 5. PROCEDURAL CYBERPUNK FREQUENCY AVATAR CANVAS ---
+        function initAvatarCanvas() {
+            const canvas = document.getElementById('avatarCanvas');
+            const ctx = canvas.getContext('2d');
+            let width, height, phase = 0;
+
+            function resize() {
+                const rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width * window.devicePixelRatio;
+                canvas.height = rect.height * window.devicePixelRatio;
+                ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+                width = rect.width;
+                height = rect.height;
+            }
+
+            window.addEventListener('resize', resize);
+            resize();
+
+            function draw() {
+                ctx.fillStyle = '#0d0d12';
+                ctx.fillRect(0, 0, width, height);
+
+                // Subtle Cyber Grid
+                ctx.strokeStyle = 'rgba(0, 240, 255, 0.06)';
+                ctx.lineWidth = 1;
+                const step = 20;
+                for (let x = 0; x < width; x += step) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, height);
+                    ctx.stroke();
+                }
+                for (let y = 0; y < height; y += step) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(width, y);
+                    ctx.stroke();
+                }
+
+                const cx = width / 2;
+                const cy = height / 2 - 6;
+
+                // Outer glowing halo
+                const grad = ctx.createRadialGradient(cx, cy, 8, cx, cy, width * 0.44);
+                grad.addColorStop(0, 'rgba(0, 240, 255, 0.24)');
+                grad.addColorStop(0.6, 'rgba(255, 42, 95, 0.1)');
+                grad.addColorStop(1, 'transparent');
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(cx, cy, width * 0.44, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Animated Frequency Waves
+                for (let w = 0; w < 3; w++) {
+                    ctx.beginPath();
+                    ctx.lineWidth = w === 0 ? 2 : 1;
+                    ctx.strokeStyle = w === 0 ? '#00f0ff' : (w === 1 ? 'rgba(255, 42, 95, 0.75)' : 'rgba(255, 255, 255, 0.25)');
+                    
+                    for (let x = 16; x < width - 16; x += 3) {
+                        const distFromCenter = Math.abs(x - cx) / (width / 2);
+                        const envelope = Math.max(0, 1 - distFromCenter * 1.15);
+                        const amp = 24 * envelope;
+                        const y = cy + Math.sin(x * 0.055 + phase + w * 1.4) * amp * Math.cos(x * 0.025 - phase * 0.5);
+                        
+                        if (x === 16) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+                }
+
+                // Minimalist Signal Core Dot
+                ctx.fillStyle = '#00f0ff';
+                ctx.beginPath();
+                ctx.arc(cx, cy, 3.5, 0, Math.PI * 2);
+                ctx.fill();
+
+                phase += 0.05;
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+        }
+
+        // Boot up on load
+        window.onload = function() {
+            startAmbientVisualizer();
+            initAvatarCanvas();
+        };
+    </script>
+</body>
+</html>
